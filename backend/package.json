@@ -1,0 +1,16 @@
+{
+  "name": "clockmqtt-backend",
+  "version": "2.0.0",
+  "description": "ClockMQTT Web Console Backend — Node.js/Express (replaces Python FastAPI)",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "mqtt": "^5.10.0"
+  }
+}

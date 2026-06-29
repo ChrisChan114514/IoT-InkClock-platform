@@ -130,15 +130,45 @@ aedes.authorizeSubscribe = function (client, sub, callback) {
 };
 
 // ============================================================================
+// Presence — publish retained messages so the backend knows who's online
+// ============================================================================
+
+function publishPresence(client, connected) {
+  const username = client && client._clockmqtt_user;
+  const roles = client && client._clockmqtt_roles;
+  // Only publish presence for authenticated device clients, not admin
+  if (!username || !roles || !roles.includes('device')) return;
+
+  const topic = `inkpad/${username}/presence`;
+  const payload = JSON.stringify({
+    connected,
+    client_id: client.id,
+    timestamp: Math.floor(Date.now() / 1000),
+  });
+  // Publish directly via Aedes (broker is the publisher, not a client)
+  aedes.publish({ topic, payload, qos: 1, retain: true }, function (err) {
+    if (err) {
+      console.log(`[PRESENCE] publish error for ${username}: ${err.message}`);
+    } else {
+      console.log(`[PRESENCE] ${username} = ${connected ? 'ONLINE' : 'OFFLINE'}`);
+    }
+  });
+}
+
+// ============================================================================
 // Event Logging
 // ============================================================================
 
 aedes.on('client', function (client) {
   console.log(`[CLIENT] connected: ${client.id}`);
+  // Publish retained presence = online (only for device clients)
+  publishPresence(client, true);
 });
 
 aedes.on('clientDisconnect', function (client) {
   console.log(`[CLIENT] disconnected: ${client.id}`);
+  // Publish retained presence = offline
+  publishPresence(client, false);
 });
 
 aedes.on('publish', function (packet, client) {

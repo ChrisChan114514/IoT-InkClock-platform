@@ -1,7 +1,7 @@
 /**
  * ClockIoT — PM2 Ecosystem Configuration
  * ========================================
- * MQTT Broker (Aedes) + Web Console (FastAPI)
+ * MQTT Broker (Aedes) + Web Console (Node.js/Express)
  *
  * Usage:
  *   pm2 start ecosystem.config.js        # start all
@@ -34,13 +34,13 @@ module.exports = {
       merge_logs: true,
     },
     {
-      // FastAPI Web Console — :2081
+      // Node.js/Express Web Console — :2081
       name: 'clockmqtt-web',
       cwd: '/home/cc/Desktop/IoTPlatform/ClockIoT/backend',
-      script: 'app.py',
-      interpreter: '/home/cc/Desktop/IoTPlatform/ClockIoT/backend/.venv/bin/python3',
+      script: 'server.js',
+      interpreter: 'node',
       env: {
-        PYTHONUNBUFFERED: '1',
+        NODE_ENV: 'production',
       },
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       error_file: '/home/cc/.pm2/logs/clockmqtt-web-error.log',
