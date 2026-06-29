@@ -1,0 +1,129 @@
+/* ClockMQTT — Web Console Styles */
+
+:root {
+    --bg: #1a1a2e;
+    --surface: #16213e;
+    --primary: #0f3460;
+    --accent: #e94560;
+    --text: #eee;
+    --text-dim: #999;
+    --green: #4caf50;
+    --orange: #ff9800;
+    --red: #f44336;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: var(--surface);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 2px solid var(--primary);
+}
+header h1 { font-size: 1.5rem; color: var(--accent); }
+.subtitle { color: var(--text-dim); font-size: 0.9rem; }
+.status-dot { margin-left: auto; font-size: 1.5rem; }
+.status-dot.online { color: var(--green); }
+.status-dot.offline { color: var(--red); }
+
+/* Nav */
+nav {
+    background: var(--surface);
+    display: flex;
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--primary);
+}
+.nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+.nav-btn:hover { color: var(--text); }
+.nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Main */
+main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+
+/* Tabs */
+.tab { display: none; }
+.tab.active { display: block; }
+
+/* Cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.card {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid var(--primary);
+}
+.card h3 { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 0.5rem; }
+.big-num { font-size: 2.5rem; font-weight: bold; color: var(--accent); }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--primary); }
+th { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
+tr:hover { background: rgba(255,255,255,0.03); }
+
+/* Buttons */
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+}
+button:hover { opacity: 0.85; }
+
+/* Toolbar */
+.toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: center; }
+.toolbar input, .toolbar select {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--primary);
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+.toolbar input { flex: 1; max-width: 300px; }
+
+/* Forms */
+.form-row { margin-top: 1rem; }
+input[type="text"], input[type="number"], select {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--primary);
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+/* Status badges */
+.badge-online { color: var(--green); font-weight: bold; }
+.badge-offline { color: var(--red); }
+
+/* Responsive */
+@media (max-width: 768px) {
+    header { padding: 1rem; }
+    nav { padding: 0 1rem; overflow-x: auto; }
+    main { padding: 1rem; }
+    .cards { grid-template-columns: 1fr 1fr; }
+    table { font-size: 0.85rem; }
+    th, td { padding: 0.5rem; }
+}

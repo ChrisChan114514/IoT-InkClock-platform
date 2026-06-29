@@ -1,0 +1,11 @@
+# ClockMQTT Backend — Dependencies
+# Install: pip install -r requirements.txt
+
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+paho-mqtt>=2.0.0
+sqlalchemy>=2.0.0
+pydantic>=2.0.0
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.9

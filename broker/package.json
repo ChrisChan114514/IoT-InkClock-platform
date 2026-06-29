@@ -1,0 +1,15 @@
+{
+  "name": "clockmqtt-broker",
+  "version": "1.0.0",
+  "description": "ClockMQTT Aedes MQTT Broker — IoT E-Paper Clock",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "aedes": "^0.51.0",
+    "websocket-stream": "^5.5.2"
+  }
+}

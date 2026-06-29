@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClockMQTT — IoT E-Paper Console</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ================================================================ -->
+    <!-- Header -->
+    <!-- ================================================================ -->
+    <header>
+        <h1>🕐 ClockMQTT</h1>
+        <span class="subtitle">IoT E-Paper Clock Console</span>
+        <span id="mqtt-status" class="status-dot offline">●</span>
+    </header>
+
+    <!-- ================================================================ -->
+    <!-- Navigation -->
+    <!-- ================================================================ -->
+    <nav>
+        <button class="nav-btn active" data-tab="dashboard">📊 Dashboard</button>
+        <button class="nav-btn" data-tab="devices">📱 Devices</button>
+        <button class="nav-btn" data-tab="words">📖 Words</button>
+        <button class="nav-btn" data-tab="schedules">📅 Schedules</button>
+        <button class="nav-btn" data-tab="system">⚙️ System</button>
+    </nav>
+
+    <!-- ================================================================ -->
+    <!-- Main Content -->
+    <!-- ================================================================ -->
+    <main>
+
+        <!-- Dashboard -->
+        <section id="tab-dashboard" class="tab active">
+            <div class="cards">
+                <div class="card">
+                    <h3>Devices Online</h3>
+                    <span class="big-num" id="dash-online">—</span>
+                </div>
+                <div class="card">
+                    <h3>Total Words</h3>
+                    <span class="big-num" id="dash-words">—</span>
+                </div>
+                <div class="card">
+                    <h3>Active Schedules</h3>
+                    <span class="big-num" id="dash-scheds">—</span>
+                </div>
+                <div class="card">
+                    <h3>MQTT Status</h3>
+                    <span class="big-num" id="dash-mqtt">—</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Devices -->
+        <section id="tab-devices" class="tab">
+            <h2>📱 Device Management</h2>
+            <table id="device-table">
+                <thead>
+                    <tr>
+                        <th>Device ID</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>RSSI</th>
+                        <th>Firmware</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="form-row">
+                <button id="btn-add-device">+ Add Device</button>
+            </div>
+        </section>
+
+        <!-- Words -->
+        <section id="tab-words" class="tab">
+            <h2>📖 Word Library</h2>
+            <div class="toolbar">
+                <input type="text" id="word-search" placeholder="Search words...">
+                <select id="word-level-filter">
+                    <option value="">All Levels</option>
+                    <option>A1</option><option>A2</option>
+                    <option>B1</option><option>B2</option>
+                    <option>C1</option><option>C2</option>
+                </select>
+                <button id="btn-add-word">+ Add Word</button>
+            </div>
+            <table id="word-table">
+                <thead>
+                    <tr>
+                        <th>Word</th>
+                        <th>Definition</th>
+                        <th>Level</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div id="word-push-area" style="display:none; margin-top:1rem;">
+                <h3>Push to Device</h3>
+                <select id="word-push-device"></select>
+                <button id="btn-push-word">📤 Push Now</button>
+            </div>
+        </section>
+
+        <!-- Schedules -->
+        <section id="tab-schedules" class="tab">
+            <h2>📅 Schedule Management</h2>
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Time</th>
+                        <th>Date</th>
+                        <th>Repeat</th>
+                        <th>Alert</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button id="btn-add-schedule">+ Add Schedule</button>
+        </section>
+
+        <!-- System -->
+        <section id="tab-system" class="tab">
+            <h2>⚙️ System Settings</h2>
+            <div class="card">
+                <h3>Server Info</h3>
+                <table>
+                    <tr><td>MQTT Broker</td><td>120.26.111.75:2080</td></tr>
+                    <tr><td>Web Console</td><td>120.26.111.75:2081</td></tr>
+                    <tr><td>Device</td><td>Clock1</td></tr>
+                </table>
+            </div>
+            <div class="card" style="margin-top:1rem;">
+                <h3>Send Display Message</h3>
+                <input type="text" id="display-text" placeholder="Text to display..." style="width:300px;">
+                <input type="number" id="display-duration" value="30" min="5" max="300" style="width:80px;"> sec
+                <button id="btn-display-send">Send to Clock1</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
