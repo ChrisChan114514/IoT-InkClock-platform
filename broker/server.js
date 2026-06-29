@@ -3,7 +3,7 @@
  * ================================
  * Pure Node.js MQTT 3.1.1 broker for the InkPad IoT clock system.
  *
- *   MQTT TCP:    port 2080
+ *   MQTT TCP:    port 2082
  *   WebSocket:   port 2091 (for frontend console)
  *
  * Auth: username=device_id, password=device_key
@@ -164,7 +164,7 @@ aedes.on('connectionError', function (client, err) {
 // Start Servers
 // ============================================================================
 
-const MQTT_PORT = 2080;
+const MQTT_PORT = 2082;
 const WS_PORT = 2091;
 
 // TCP MQTT server

@@ -1,7 +1,7 @@
 """ClockMQTT Broker Client — Paho MQTT wrapper.
 
 Handles communication between the Web Console and Aedes MQTT broker.
-Both run on the same server, so broker is at localhost:2080.
+Both run on the same server, so broker is at localhost:2082.
 """
 
 from __future__ import annotations
@@ -20,7 +20,7 @@ logger = logging.getLogger("mqtt_client")
 # ============================================================================
 
 MQTT_BROKER_HOST = "127.0.0.1"
-MQTT_BROKER_PORT = 2080
+MQTT_BROKER_PORT = 2082
 MQTT_USERNAME = "admin"
 MQTT_PASSWORD = "admin123"  # CHANGE IN PRODUCTION
 

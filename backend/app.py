@@ -7,7 +7,7 @@ word library, schedule management, and system control.
 
 Server: 120.26.111.75
 API Port: 2081
-MQTT Broker: Aedes (localhost:2080)
+MQTT Broker: Aedes (localhost:2082)
 
 Usage:
     python app.py                     # dev mode, port 2081
@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI):
     """Startup / shutdown."""
     logger.info("=" * 50)
     logger.info("ClockMQTT Web Console Starting...")
-    logger.info("MQTT Broker: Aedes @ localhost:2080")
+    logger.info("MQTT Broker: Aedes @ localhost:2082")
     logger.info("API Server:  0.0.0.0:2081")
     logger.info("=" * 50)
 

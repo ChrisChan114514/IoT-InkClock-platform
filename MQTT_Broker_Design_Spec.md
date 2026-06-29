@@ -10,7 +10,12 @@
 > AT 模块: DX-CT02-A&B 4G+BLE (115200/8N1)
 > 目标: 英文单词记忆 + 英文日程提醒 + 实时时钟
 >
-> **服务器**: 120.26.111.75 | **MQTT**: Aedes :2080 | **Web**: FastAPI :2081 | **设备**: Clock1
+> **服务器**: 120.26.111.75 | **设备**: Clock1
+
+服务	端口	状态
+clockmqtt-broker	MQTT TCP :2082, WS :2091	online
+clockmqtt-web	FastAPI :2081	online
+API 健康检查: {"status":"ok","mqtt_connected":true}
 
 ---
 
