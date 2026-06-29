@@ -1,13 +1,19 @@
 """Device Management API."""
 
+import json
+import time
+from datetime import datetime, timezone, timedelta
+
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 from database import get_db
 from models.schemas import DeviceCreate, DeviceResponse
-import json
 
 router = APIRouter(prefix="/api/devices", tags=["devices"])
+
+# China Standard Time (UTC+8)
+CST = timezone(timedelta(hours=8))
 
 # In-memory device status (updated by MQTT status messages)
 _device_status: dict[str, dict] = {}
@@ -21,14 +27,37 @@ def update_device_status(topic: str, payload: str) -> None:
         device_id = parts[1]
         try:
             data = json.loads(payload)
+            was_offline = not _device_status.get(device_id, {}).get("online", False)
+            is_online = data.get("online", False)
+
             _device_status[device_id] = {
-                "online": data.get("online", False),
+                "online": is_online,
                 "rssi": data.get("rssi"),
                 "fw_ver": data.get("fw_ver"),
-                "last_seen": None,  # would use datetime.now()
+                "last_seen": datetime.now(CST).isoformat(),
             }
+
+            # Auto-publish UTC+8 time when device just came online
+            if was_offline and is_online:
+                _publish_time_sync(device_id)
         except json.JSONDecodeError:
             pass
+
+
+def _publish_time_sync(device_id: str) -> None:
+    """Publish current UTC+8 time to the device's time/sync topic."""
+    from mqtt_client import mqtt_broker
+    now = datetime.now(CST)
+    timestamp = int(now.timestamp())
+    mqtt_broker.publish(
+        f"inkpad/{device_id}/time/sync",
+        {
+            "timestamp": timestamp,
+            "timezone": "Asia/Shanghai",
+            "datetime": now.strftime("%Y-%m-%d %H:%M:%S"),
+        },
+        qos=0,
+    )
 
 
 @router.get("")

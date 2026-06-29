@@ -84,26 +84,33 @@ class ClockMQTTClient:
             self._connected = True
             logger.info("MQTT connected OK")
             # Subscribe to all device status topics
-            self._client.subscribe("inkpad/+/status")
+            result = self._client.subscribe("inkpad/+/status")
+            logger.info(f"Subscribed to inkpad/+/status (mid={result.mid})")
         else:
             logger.error(f"MQTT connect failed: rc={reason_code}")
 
     def _on_message(self, client, userdata, msg):
         try:
             payload = msg.payload.decode("utf-8")
-            logger.debug(f"MQTT RX: {msg.topic} → {payload[:100]}")
         except Exception:
+            logger.warning(f"MQTT RX: cannot decode payload on {msg.topic}")
             return
+
+        logger.info(f"MQTT RX: {msg.topic} → {payload[:150]}")
 
         # Dispatch to registered handlers
         with self._lock:
+            matched = False
             for pattern, handlers in self._handlers.items():
                 if mqtt.topic_matches_sub(pattern, msg.topic):
+                    matched = True
                     for handler in handlers:
                         try:
                             handler(msg.topic, payload)
                         except Exception as e:
                             logger.error(f"Handler error for {msg.topic}: {e}")
+            if not matched:
+                logger.warning(f"MQTT RX: no handler for {msg.topic} (handlers: {list(self._handlers.keys())})")
 
     def on_topic(self, pattern: str, handler: Callable) -> None:
         """Register a handler for a topic pattern."""

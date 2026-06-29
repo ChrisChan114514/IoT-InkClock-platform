@@ -1,8 +1,3 @@
-
-
-
-
-
 # InkPad MQTT IoT 时钟 — Broker / Web 控制台设计规格
 
 > 版本: v1.2
@@ -266,7 +261,7 @@ Web控制台 (每天 08:00)          Broker                   STM32
 
 ## 7. 运行方式（无 Docker，直接进程）
 
-### 7.1 启动 Aedes MQTT Broker（端口 2080）
+### 7.1 启动 Aedes MQTT Broker（端口 2082）
 
 ```bash
 cd ClockMQTT/broker
@@ -285,7 +280,7 @@ pip install -r requirements.txt
 python app.py      # 或: uvicorn app:app --host 0.0.0.0 --port 2081
 ```
 
-Web Console 通过 `127.0.0.1:2080`（同机）连接 Aedes Broker。
+Web Console 通过 `127.0.0.1:2082`（同机）连接 Aedes Broker。
 
 ### 7.3 进程管理（推荐 PM2）
 

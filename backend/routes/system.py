@@ -1,19 +1,27 @@
 """System API — status, login."""
 
+import time
+from datetime import datetime, timezone, timedelta
+
 from fastapi import APIRouter, HTTPException
 from models.schemas import DisplayPushRequest, LoginRequest, SystemStatus
 from mqtt_client import mqtt_broker
+from routes.devices import _device_status
 
 router = APIRouter(prefix="/api", tags=["system"])
+
+# Timezone for China Standard Time (UTC+8)
+CST = timezone(timedelta(hours=8))
 
 
 @router.get("/system/status")
 def get_status():
     """Get system overview."""
+    online_count = sum(1 for s in _device_status.values() if s.get("online"))
     return {
         "mqtt_connected": mqtt_broker.is_connected,
-        "devices_online": 0,   # would query from real status tracking
-        "devices_total": 1,
+        "devices_online": online_count,
+        "devices_total": max(1, len(_device_status)),
         "words_total": 3,
         "schedules_active": 0,
     }

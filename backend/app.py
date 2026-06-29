@@ -57,11 +57,13 @@ async def lifespan(app: FastAPI):
     # Init database
     init_db()
 
+    # Register MQTT handlers FIRST (before connect) to avoid race condition:
+    # if connect happens before handler registration, retained messages
+    # from devices would arrive with no handler and be silently dropped.
+    mqtt_broker.on_topic("inkpad/+/status", devices.update_device_status)
+
     # Connect to MQTT broker
     mqtt_broker.connect()
-
-    # Wire up MQTT status → device tracker
-    mqtt_broker.on_topic("inkpad/+/status", devices.update_device_status)
 
     yield
 
